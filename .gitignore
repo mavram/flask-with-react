@@ -11,5 +11,8 @@
 # webapp static files
 **/webapp/static
 
+# node_modules
+**/node_modules
+
 # visual studio code
 .vscode

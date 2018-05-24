@@ -1,0 +1,19 @@
+{
+    "description": "Boilerplate application using Flask, React and Bootstrap.",
+    "license": "MIT License",
+    "repository": "https://github.com/mavram/flask-with-react",
+    "private": true,
+    "scripts": {},
+    "dependencies": {
+        "react": "^16.3.2",
+        "react-dom": "^16.3.2",
+        "react-router": "^4.2.0",
+        "react-router-dom": "^4.2.2"
+    },
+    "devDependencies": {
+        "eslint": "^4.19.1",
+        "eslint-config-google": "^0.9.1",
+        "eslint-plugin-react": "^7.8.2",
+        "webpack": "^4.8.3"
+    }
+}
