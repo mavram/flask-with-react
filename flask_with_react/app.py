@@ -33,7 +33,7 @@ def get_config_param(name, default=None):
 
 
 def get_app():
-    web_assets_folder = os.path.join(*[APP_ROOT, 'webapp', 'static'])
+    web_assets_folder = os.path.join(*[APP_ROOT, 'webapp', 'dist'])
     a = Flask(
         __name__.split('.')[0],
         static_folder=web_assets_folder,

@@ -11,9 +11,15 @@
         "react-router-dom": "^4.2.2"
     },
     "devDependencies": {
+        "babel-core": "^6.26.3",
+        "babel-loader": "^7.1.4",
+        "babel-preset-env": "^1.7.0",
+        "babel-preset-react": "^6.24.1",
         "eslint": "^4.19.1",
         "eslint-config-google": "^0.9.1",
         "eslint-plugin-react": "^7.8.2",
+        "html-loader": "^0.5.5",
+        "html-webpack-plugin": "^3.2.0",
         "webpack": "^4.8.3"
     }
 }

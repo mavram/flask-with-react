@@ -1,15 +1,14 @@
+# distribution files
+**/dist
+
 # python
 .venv/**
 *.egg-info
 **/__pycache__
-**/dist
 
 # logs
 **/*.log
 **/*.log.*
-
-# webapp static files
-**/webapp/static
 
 # node_modules
 **/node_modules
