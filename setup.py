@@ -11,7 +11,7 @@ with open('README.md') as f:
 setuptools.setup(
     name=APP_INFO['name'],
     version=APP_INFO['version'],
-    description='Boilerplate project for Flask, React and Bootstrap.',
+    description='Boilerplate application using Flask, React and Bootstrap.',
     url='https://github.com/mavram/flask-with-react',
     author='Mircea Avram',
     author_email='mavram@gmail.com',
