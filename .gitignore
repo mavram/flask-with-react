@@ -1,0 +1,11 @@
+# python
+.venv/**
+*.egg-info
+**/__pycache__
+**/dist
+
+# webapp static files
+**/webapp/static
+
+# visual studio code
+.vscode
