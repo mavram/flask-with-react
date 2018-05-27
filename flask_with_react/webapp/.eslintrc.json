@@ -16,12 +16,15 @@
 
     "rules": {
         "semi": "off",
+        "comma-dangle": "off",
+        "max-len": [2, {"code": 120, "tabWidth": 4, "ignoreUrls": true}],
         "react/prop-types": "off",
         "require-jsdoc": "off"
     },
 
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "google"
     ]
 }

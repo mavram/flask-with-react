@@ -15,10 +15,21 @@ const getJsLoader = (t) => {
     return {
         test: t,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-            presets: ['env', 'react', 'stage-3']
-        }
+        use: [
+            {
+                loader: 'babel-loader',
+                options: {
+                    presets: ['env', 'react', 'stage-3']
+                }
+            },
+            {
+                loader: 'eslint-loader',
+                options: {
+                    cache: true,
+                    emitError: true
+                }
+            }
+        ]
     }
 }
 
@@ -65,5 +76,5 @@ module.exports = {
 
     plugins: getPlugins(),
 
-    devtool: 'inline-source-map'
+    devtool: process.env.NODE_ENV === 'production' ? 'cheap-source-map' : 'source-map'
 }
