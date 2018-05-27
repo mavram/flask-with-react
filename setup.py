@@ -2,7 +2,7 @@ import glob
 import json
 import setuptools
 
-with open(glob.glob('**/app.json')[0]) as f:
+with open(glob.glob('*/webapp/dist/app.json')[0]) as f:
     APP_INFO = json.load(f)
 
 with open('README.md') as f:
@@ -11,11 +11,11 @@ with open('README.md') as f:
 setuptools.setup(
     name=APP_INFO['name'],
     version=APP_INFO['version'],
-    license='MIT License',
-    description='Boilerplate application using Flask, React and Bootstrap.',
-    url='https://github.com/mavram/flask-with-react',
-    author='Mircea Avram',
-    author_email='mavram@gmail.com',
+    license=APP_INFO['license'],
+    description=APP_INFO['description'],
+    url=APP_INFO['repository']["url"],
+    author=APP_INFO['author']['name'],
+    author_email=APP_INFO['author']['email'],
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=[

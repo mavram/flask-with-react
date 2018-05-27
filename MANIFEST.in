@@ -1,8 +1,5 @@
 # license
 include LICENSE
 
-# application info
-recursive-include **/app.json
-
 # web assets
-recursive-include **/webapp/static *
+recursive-include */webapp/dist *

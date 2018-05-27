@@ -1,12 +1,13 @@
 
 const path = require('path')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 
 
-const appInfo = require('./src/app.json')
 const paths = {
     src: path.resolve('src'),
     app: path.resolve('src', 'js'),
+    appInfo: path.resolve('dist', 'app.json'),
     html: path.resolve('src', 'index.html')
 }
 
@@ -45,12 +46,35 @@ const getCssLoader = () => {
 const getPlugins = () => {
     let plugins = []
 
+    const appInfo = require('./package.json')
+
     plugins.push(
         new HtmlWebPackPlugin({
             template: paths.html,
             title: appInfo.name,
             version: appInfo.version
         })
+    )
+
+    plugins.push(
+        new CopyWebpackPlugin([
+            {
+                from: 'package.json',
+                to: paths.appInfo,
+                transform: (content, path) => {
+                    return JSON.stringify({
+                        name: appInfo.name,
+                        version: appInfo.version,
+                        description: appInfo.description,
+                        license: appInfo.license,
+                        author: appInfo.author,
+                        repository: appInfo.repository
+                    },
+                    null,
+                    '    ')
+                }
+            }
+          ])
     )
 
     return plugins
@@ -75,6 +99,11 @@ module.exports = {
     },
 
     plugins: getPlugins(),
+
+    performance: {
+        maxAssetSize: 400000,
+        maxEntrypointSize: 400000
+      },
 
     devtool: process.env.NODE_ENV === 'production' ? 'cheap-source-map' : 'source-map'
 }

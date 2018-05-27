@@ -1,13 +1,22 @@
 {
+    "name": "flask-with-react",
+    "version": "0.0.1",
     "description": "Boilerplate application using Flask, React and Bootstrap.",
     "license": "MIT License",
-    "repository": "https://github.com/mavram/flask-with-react",
+    "repository": {
+        "url": "https://github.com/mavram/flask-with-react"
+    },
+    "author": {
+        "name": "Mircea Avram",
+        "email": "mavram@gmail.com"
+    },
     "private": true,
     "scripts": {
         "build": "webpack --mode development",
         "watch": "webpack --watch --mode development",
         "dist": "webpack --mode production",
-        "start": "webpack-dev-server --mode development"
+        "start": "webpack-dev-server --mode development",
+        "clean": "rm -rf dist"
     },
     "dependencies": {
         "bootstrap": "^4.1.1",
@@ -23,6 +32,7 @@
         "babel-loader": "^7.1.4",
         "babel-preset-env": "^1.7.0",
         "babel-preset-react": "^6.24.1",
+        "copy-webpack-plugin": "^4.5.1",
         "css-loader": "^0.28.11",
         "eslint": "^4.19.1",
         "eslint-config-google": "^0.9.1",
