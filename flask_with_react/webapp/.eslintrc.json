@@ -1,1 +1,27 @@
-{}
+{
+    "parserOptions": {
+        "parser": "babel-eslint",
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+
+    "env": {
+        "browser": true,
+        "node": true
+    },
+
+    "rules": {
+        "semi": "off",
+        "react/prop-types": "off",
+        "require-jsdoc": "off"
+    },
+
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ]
+}
