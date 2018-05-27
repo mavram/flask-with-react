@@ -62,7 +62,7 @@ def get_app():
     logger.setLevel(get_log_level())
     _ = [logger.addHandler(h) for h in get_log_handlers()]
 
-    with open(os.path.join(APP_ROOT, 'app.json')) as f:
+    with open(os.path.join(*[APP_ROOT, 'webapp', 'src', 'app.json'])) as f:
         app_info = json.load(f)
     logging.getLogger(__name__).info(
         '%s-%s : %s : %s',

@@ -3,7 +3,7 @@ const path = require('path')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 
 
-const appInfo = require('../app.json')
+const appInfo = require('./src/app.json')
 const paths = {
     src: path.resolve('src'),
     app: path.resolve('src', 'js'),

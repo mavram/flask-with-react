@@ -8,6 +8,9 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 // styles
 import './css/styles'
 
+// app-info
+import './app.json'
+
 // app
 import React from 'react'
 import ReactDOM from 'react-dom'
