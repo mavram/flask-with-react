@@ -24,10 +24,15 @@ def get_app():
     try:
         a.config.from_pyfile(os.path.join(*[CONFIG_DIR, 'default.py']))
         a.config.from_pyfile(os.path.join(*[CONFIG_DIR, f'{env}.py']))
-        if 'FLASK_CONFIG' in os.environ:
-            a.config.from_envvar('FLASK_CONFIG')
     except FileNotFoundError:
         raise ValueError(f'Unknown environment. {env}')
+
+    if 'FLASK_CONFIG' in os.environ:
+        try:
+            a.config.from_envvar('FLASK_CONFIG')
+        except FileNotFoundError:
+            local_config = os.environ['FLASK_CONFIG']
+            raise ValueError(f'Missing local configuration. {local_config}')
 
     def get_log_level():
         return logging.DEBUG if a.config['DEBUG'] else logging.INFO
