@@ -101,8 +101,8 @@ module.exports = {
     plugins: getPlugins(),
 
     performance: {
-        maxAssetSize: 400000,
-        maxEntrypointSize: 400000
+        maxAssetSize: 500000,
+        maxEntrypointSize: 500000
       },
 
     devtool: process.env.NODE_ENV === 'production' ? 'cheap-source-map' : 'source-map'
