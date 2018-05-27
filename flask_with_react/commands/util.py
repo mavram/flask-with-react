@@ -1,5 +1,5 @@
 import click
-from ..app import app, get_config_param
+from ..app import app
 
 @app.cli.command(short_help='Displays configuration.')
 @click.option('--param', '-p')
@@ -7,4 +7,7 @@ def cfg(param):
     if not param:
         print('Missing parameter name.')
         return
-    print(f'{param}={get_config_param(param)}')
+    if param not in app.config:
+        print(f'Unknown parameter name. {param}')
+        return
+    print(f'{param}={app.config[param]}')
