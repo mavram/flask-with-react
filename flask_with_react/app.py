@@ -9,7 +9,7 @@ from flask import Flask, Config
 APP_ROOT = os.path.dirname(__file__)
 
 @functools.lru_cache()
-def get_environment_config():
+def get_config():
     env = os.environ['FLASK_ENV'] if 'FLASK_ENV' in os.environ else None
     if not env:
         raise ValueError('Missing environment definition.')
@@ -25,8 +25,8 @@ def get_environment_config():
 def get_config_param(name, default=None):
     if name in os.environ:
         return os.environ[name]
-    elif name in get_environment_config():
-        return get_environment_config()[name]
+    elif name in get_config():
+        return get_config()[name]
     elif default is not None:
         return default
     raise ValueError(f'Unknown configuration parameter. {name}')
@@ -36,9 +36,10 @@ def get_app():
     web_assets_folder = os.path.join(*[APP_ROOT, 'webapp', 'dist'])
     a = Flask(
         __name__.split('.')[0],
+        static_url_path='',
         static_folder=web_assets_folder,
         template_folder=web_assets_folder)
-    a.config.from_mapping(get_environment_config())
+    a.config.from_mapping(get_config())
 
     def get_log_level():
         return logging.DEBUG if a.config['DEBUG'] else logging.INFO
@@ -63,7 +64,12 @@ def get_app():
 
     with open(os.path.join(APP_ROOT, 'app.json')) as f:
         app_info = json.load(f)
-    logging.getLogger(__name__).info('%s-%s: %s', app_info['name'], app_info['version'], a.config['ENV'])
+    logging.getLogger(__name__).info(
+        '%s-%s : %s : %s',
+        app_info['name'],
+        app_info['version'],
+        a.config['ENV'],
+        web_assets_folder)
 
     return a
 
