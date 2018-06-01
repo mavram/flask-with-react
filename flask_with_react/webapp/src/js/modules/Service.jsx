@@ -3,83 +3,119 @@ import React from 'react'
 
 
 export class Service {
-    constructor(endpoint, jwt, version) {
-        this.endpoint = endpoint
-        this.jwt = jwt
-        this.version = version
+    constructor(endpoint) {
+        this.endpoint = endpoint ? endpoint : window.location.origin
+        this.handlers = []
     }
 
-    invoke(httpMethod, serviceMethod, onSucces, onError) {
+    addHandler(h) {
+        this.handlers.push(h)
+    }
+
+    removeHandler(h) {
+        this.handlers = this.handlers.filter((o) => o!== h)
+    }
+
+    onSuccess(data) {
+        this.handlers.forEach((h) => h(false, false, data))
+    }
+
+    onError(defaultData) {
+        this.handlers.forEach((h) => h(false, true, defaultData))
+    }
+
+    invoke(options) {
         const getHeaders = () => {
             let h = {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
-            if (this.jwt) {
-                h['Authorization'] = 'JWT ' + this.jwt
+            if (options.jwt) {
+                h['Authorization'] = 'JWT ' + options.jwt
             }
             return h
         }
 
         let uri = this.endpoint + '/api'
-        if (this.version) {
-            uri = uri + '/v' + this.version
+        if (options.version) {
+            uri = uri + '/v' + options.version
         }
-        uri = uri + '/' + serviceMethod
+        uri = uri + '/' + options.name
 
-        let options = {
+        let fetchOptions = {
             headers: getHeaders(),
-            method: httpMethod.verb
+            method: options.verb
         }
-        if (httpMethod.verb === 'POST') {
-            options.body = httpMethod.body
+        if (options.verb === 'POST') {
+            fetchOptions.body = JSON.stringify(options.body)
         }
 
-        fetch(uri, options).then((r) => {
-            if (r.ok) {
-                return r
+        this.handlers.forEach((h) => h(true, false, options.defaultData))
+
+        fetch(uri, fetchOptions).then(
+            (r) => {
+                if (r.ok) {
+                    return r
+                }
+                throw new Error(r.status + ':' + r.statusText)
             }
-            throw new Error(r.status + ':' + r.statusText)
-        }).then((r) => r.json()).then(onSucces).catch(onError)
-    }
-
-    get(serviceMethod, onSucces, onError) {
-        return this.invoke({verb: 'GET'}, serviceMethod, onSucces, onError)
-    }
-
-    post(serviceMethod, data, onSucces, onError) {
-        return this.invoke({verb: 'POST', body: data}, serviceMethod, onSucces, onError)
+        ).then(
+            (r) => r.json()
+        ).then(
+            this.onSucces
+        ).catch(
+            () => this.onError(options.defaultData)
+        )
     }
 }
 
 
-export const withService = (WrappedComponent, httpVerb, serviceMethod, defaultData) => {
+export const withService = (WrappedComponent, options) => {
     class WithService extends React.Component {
         constructor(props) {
             super(props)
             this.state = {
-                status: WithService.INITIALIZED,
-                data: defaultData
+                isLoading: false,
+                failedToLoad: false,
+                data: options.defaultData
             }
+            this.service = new Service()
+            this.onServiceMethod = this.onServiceMethod.bind(this)
+        }
+
+        onServiceMethod(isLoading, failedToLoad, data) {
+            this.setState({
+                isLoading: isLoading,
+                failedToLoad: failedToLoad,
+                data: data
+            })
         }
 
         componentDidMount() {
+            this.service.addHandler(this.onServiceMethod)
+            this.service.invoke(options)
+        }
+
+        componentWillUnmount() {
+            this.service.removeHandler(this.onServiceMethod)
         }
 
         render() {
-            return <wrappedComponent status={this.status} data={this.data} {...this.props}/>
+            return <WrappedComponent
+                isLoading={this.state.isLoading}
+                failedToLoad={this.state.failedToLoad}
+                data={this.state.data}
+                {...this.props}
+                />
         }
     }
 
     const getDisplayName = () => {
         return WrappedComponent.displayName || WrappedComponent.name || 'Component'
     }
-    WithService.displayName = `WithService(${serviceMethod})(${getDisplayName()})`
-
-    WithService.INITIALIZED = 'initialized'
-    WithService.LOADING = 'loading'
-    WithService.FAILED = 'failed'
-    WithService.DONE = 'done'
-
+    const getMethodName = () => {
+        return `${options.version}:${options.name}`
+    }
+    WithService.displayName = `WithService(${getMethodName()})(${getDisplayName()})`
     return WithService
 }

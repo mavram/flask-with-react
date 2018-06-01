@@ -4,10 +4,6 @@ export const JWT_KEY = '__jwt_key__'
 export const VERSION_KEY = '__version_key__'
 
 export class Settings {
-    static getEndpoint() {
-        return window.location.origin
-    }
-
     static getVersion() {
         return localStorage.getItem(VERSION_KEY)
     }
