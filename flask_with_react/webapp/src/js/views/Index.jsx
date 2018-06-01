@@ -1,15 +1,20 @@
 
 import React from 'react'
 import {Redirect} from 'react-router-dom'
-import {Settings, JWT_KEY, USER_KEY} from '../modules/Settings'
+import {Settings, JWT_KEY, USER_KEY} from '../Settings'
 
 
 export const Login = () => {
     if (Settings.isAuthenticated()) {
         return <Redirect to='/'/>
     }
-    // login user
-    return <p className='lead'>Login Form</p>
+    return <div className='container'>
+        <div className='row'>
+            <div className='col'>
+                <p className='lead'>Login form.</p>
+            </div>
+        </div>
+    </div>
 }
 
 

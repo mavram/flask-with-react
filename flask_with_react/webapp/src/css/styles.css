@@ -1,6 +1,9 @@
 body {
     min-height: 100%;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.no-hover-decoration:hover,
+.no-hover-decoration:focus {
+    text-decoration: none;
 }

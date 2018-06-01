@@ -1,9 +1,11 @@
-import {Settings} from './Settings'
+
+import React from 'react'
 
 
 export class Service {
-    constructor(endpoint, version) {
+    constructor(endpoint, jwt, version) {
         this.endpoint = endpoint
+        this.jwt = jwt
         this.version = version
     }
 
@@ -13,9 +15,8 @@ export class Service {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
-            const jwt = Settings.getJWT()
-            if (jwt) {
-                h['Authorization'] = 'JWT ' + jwt
+            if (this.jwt) {
+                h['Authorization'] = 'JWT ' + this.jwt
             }
             return h
         }
@@ -49,4 +50,36 @@ export class Service {
     post(serviceMethod, data, onSucces, onError) {
         return this.invoke({verb: 'POST', body: data}, serviceMethod, onSucces, onError)
     }
+}
+
+
+export const withService = (WrappedComponent, httpVerb, serviceMethod, defaultData) => {
+    class WithService extends React.Component {
+        constructor(props) {
+            super(props)
+            this.state = {
+                status: WithService.INITIALIZED,
+                data: defaultData
+            }
+        }
+
+        componentDidMount() {
+        }
+
+        render() {
+            return <wrappedComponent status={this.status} data={this.data} {...this.props}/>
+        }
+    }
+
+    const getDisplayName = () => {
+        return WrappedComponent.displayName || WrappedComponent.name || 'Component'
+    }
+    WithService.displayName = `WithService(${serviceMethod})(${getDisplayName()})`
+
+    WithService.INITIALIZED = 'initialized'
+    WithService.LOADING = 'loading'
+    WithService.FAILED = 'failed'
+    WithService.DONE = 'done'
+
+    return WithService
 }
