@@ -1,14 +1,22 @@
 
 import React from 'react'
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import {SettingsComponent} from './containers/SettingsComponent'
+import {Index, Login, Logout} from './views/Index'
+import {Home} from './views/Home'
+import {Welcome} from './views/Welcome'
 
-const App = () => {
-    return <div className='container'>
-        <div className='row'>
-            <div className='col'>
-                <p className='lead'>Under construction ...</p>
-            </div>
-        </div>
-    </div>
+
+export const App = () => {
+    return <BrowserRouter>
+        <SettingsComponent>
+            <Switch>
+                <Route exact path='/' render={Index}/>
+                <Route exact path='/home' render={Home}/>
+                <Route exact path='/welcome' render={Welcome}/>
+                <Route exact path='/login' render={Login}/>
+                <Route exact path='/logout' render={Logout}/>
+            </Switch>
+        </SettingsComponent>
+    </BrowserRouter>
 }
-
-export default App
