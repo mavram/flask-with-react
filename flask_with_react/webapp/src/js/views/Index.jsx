@@ -1,23 +1,11 @@
 
 import React from 'react'
 import {Redirect} from 'react-router-dom'
-
-
-const isAuthenticated = () => {
-    return false
-}
-
-
-export const Index = () => {
-    if (isAuthenticated()) {
-        return <Redirect to='/home'/>
-    }
-    return <Redirect to='/welcome'/>
-}
+import {Settings, JWT_KEY, USER_KEY} from '../modules/Settings'
 
 
 export const Login = () => {
-    if (isAuthenticated()) {
+    if (Settings.isAuthenticated()) {
         return <Redirect to='/'/>
     }
     // login user
@@ -26,8 +14,17 @@ export const Login = () => {
 
 
 export const Logout = () => {
-    if (isAuthenticated()) {
-        // logout user
+    if (Settings.isAuthenticated()) {
+        Settings.set(JWT_KEY)
+        Settings.set(USER_KEY)
     }
     return <Redirect to='/'/>
+}
+
+
+export const Index = () => {
+    if (Settings.isAuthenticated()) {
+        return <Redirect to='/home'/>
+    }
+    return <Redirect to='/welcome'/>
 }
