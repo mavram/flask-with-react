@@ -4,7 +4,7 @@ import React from 'react'
 
 export class Service {
     constructor(endpoint) {
-        this.endpoint = endpoint ? endpoint : window.location.origin
+        this.endpoint = endpoint ? endpoint : window.location.origin + '/api'
         this.handlers = []
     }
 
@@ -36,9 +36,9 @@ export class Service {
             return h
         }
 
-        let uri = this.endpoint + '/api'
+        let uri = this.endpoint
         if (options.version) {
-            uri = uri + '/v' + options.version
+            uri = uri + '/' + options.version
         }
         uri = uri + '/' + options.name
 
