@@ -1,6 +1,6 @@
 
-export const USER_KEY = '__user_key__'
 export const JWT_KEY = '__jwt_key__'
+export const USER_KEY = '__user_key__'
 export const VERSION_KEY = '__version_key__'
 
 export class Settings {

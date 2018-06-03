@@ -2,42 +2,56 @@
 import React from 'react'
 import {Redirect} from 'react-router-dom'
 import {Settings, JWT_KEY, USER_KEY} from '../Settings'
+import {withService, Service} from '../modules/Service'
+import {LoginService} from '../Services'
 
 
-const LoginView = ({isLoading, failedToLoad, data}) => {
-    const getMessage = (m) => {
+class LoginComponent extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        const {status, service, data} = this.props
+
+        const getMessage = (m) => {
+            return <div className='container'>
+                <div className='row'>
+                    <div className='col'>
+                        <p className='lead'>{m}</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+        if (status === Service.LOADING) {
+            return getMessage('Authenticating...')
+        }
+        if (status === Service.FAILED) {
+            return getMessage('Failed to authenticate.')
+        }
+
+        if (status === Service.DONE) {
+            // save JWT & User
+            console.log(JSON.stringify(data)) // eslint-disable-line no-console
+            return <Redirect to='/home'/>
+        }
+
         return <div className='container'>
             <div className='row'>
                 <div className='col'>
-                    <p className='lead'>{m}</p>
+                    <button onClick={() => service.login('admin', 'passwd')}>Login</button>
                 </div>
             </div>
         </div>
     }
-    if (isLoading) {
-        return getMessage('Authenticating...')
-    }
-    if (failedToLoad) {
-        return getMessage('Failed to authenticate.')
-    }
-    console.log(JSON.stringify(data)) // eslint-disable-line no-console
-    return <Redirect to='/home'/>
 }
 
-// hard-coded for now
-import {withService} from '../modules/Service'
-const LoginViewWithService = withService(LoginView, {
-    name: 'login',
-    jwt: Settings.getJWT(),
-    verb: 'POST',
-    body: {
-        username: 'test',
-        passwd: 'test'
-    }
-})
+
+export const LoginWithService = withService(LoginComponent, LoginService)
 
 export const Login = () => {
-    return <LoginViewWithService/>
+    return <LoginWithService/>
 }
 
 
