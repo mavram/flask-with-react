@@ -57,11 +57,13 @@ def get_app():
 
     with open(os.path.join(*[WEBAPP_DIR, 'app.json'])) as f:
         app_info = json.load(f)
+        a.config['VERSION'] = app_info['version']
+        a.config['NAME'] = app_info['name']
 
     logging.getLogger(__name__).info(
         '%s-%s : %s : %s : %s',
-        app_info['name'],
-        app_info['version'],
+        a.config['NAME'],
+        a.config['VERSION'],
         a.config['ENV'],
         WEBAPP_DIR,
         os.environ['FLASK_CONFIG'] if 'FLASK_CONFIG' in os.environ else 'No local configuration.')

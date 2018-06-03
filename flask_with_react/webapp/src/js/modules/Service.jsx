@@ -6,8 +6,9 @@ export class Service {
     constructor(options) {
         this.options = options
         this.handlers = []
-        this.onSuccess = this.onSuccess.bind(this)
+        this.onResponse = this.onResponse.bind(this)
         this.onError = this.onError.bind(this)
+        this.hasErrors = false
     }
 
     getDefaultData() {
@@ -22,12 +23,12 @@ export class Service {
         this.handlers = this.handlers.filter((o) => o!== h)
     }
 
-    onSuccess(data) {
-        this.handlers.forEach((h) => h(Service.DONE, data))
+    onResponse(data) {
+        this.handlers.forEach((h) => h(this.hasErrors ? Service.FAILED : Service.DONE, data))
     }
 
-    onError() {
-        this.handlers.forEach((h) => h(Service.FAILED, this.options.defaultData))
+    onError(error) {
+        this.handlers.forEach((h) => h(Service.FAILED, error))
     }
 
     call(params) {
@@ -37,7 +38,7 @@ export class Service {
                 'Content-Type': 'application/json'
             }
             if (params.jwt) {
-                h['Authorization'] = 'JWT ' + params.jwt
+                h['Authorization'] = params.jwt
             }
             return h
         }
@@ -65,18 +66,16 @@ export class Service {
         }
 
         this.handlers.forEach((h) => h(Service.LOADING, this.options.defaultData))
-
+        this.hasErrors = false
         fetch(uri, fetchOptions).then(
             (r) => {
-                if (r.ok) {
-                    return r
-                }
-                throw new Error(r.status + ':' + r.statusText)
+                this.hasErrors = !r.ok
+                return r
             }
         ).then(
             (r) => r.json()
         ).then(
-            this.onSuccess
+            this.onResponse
         ).catch(
             this.onError
         )

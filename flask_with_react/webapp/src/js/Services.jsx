@@ -10,7 +10,20 @@ export class LoginService extends Service {
         })
     }
 
-    login(username, password) {
-        return this.call({jwt: Settings.getJWT(), body: {username: username, password: password}})
+    login(username, passwd) {
+        return this.call({jwt: Settings.getJWT(), body: {username: username, password: passwd}})
+    }
+}
+
+
+export class ApplicationService extends Service {
+    constructor() {
+        super({
+            name: 'application'
+        })
+    }
+
+    get() {
+        return this.call({jwt: Settings.getJWT()})
     }
 }
