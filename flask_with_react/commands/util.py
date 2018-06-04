@@ -1,9 +1,9 @@
 import click
 from ..app import app
 
-@app.cli.command(short_help='Displays configuration.')
+@app.cli.command(short_help='Displays configuration parameter.')
 @click.option('--param', '-p')
-def cfg(param):
+def config(param):
     if not param:
         print('Missing parameter name.')
         return
