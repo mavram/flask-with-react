@@ -20,6 +20,7 @@ This is a boilerplate application for a Flask backend using React with Boostrap 
  * Unit-tests: `pytest`. Note that it sets `FLASK_ENV` to `xunit`.
  * Coverage: `py.test --cov=flask_with_react`
  * Linting: `pylint --rcfile .pylintrc -f parseable flask_with_react`
+ * Build dist package: `python3 setup.py sdist release`
 
 ## Webapp Command Line Tools ##
 
