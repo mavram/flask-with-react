@@ -18,7 +18,7 @@ const LoginView = ({status, service, data}) => {
         } else if (status === Service.FAILED) {
             return 'Failed to authenticate.'
         } else if (status === Service.INITIALIZING) {
-            return 'Initializing...'
+            return 'Login page.'
         }
         return 'N/A'
     }
