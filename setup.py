@@ -19,7 +19,19 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=[
-        'flask>=1.0.2',
-        'pylint>=1.8.4'
+        'flask>=1.0.2'
+    ],
+    extras_require={
+        'development': [
+            'pylint>=1.8.4',
+            'pytest>=3.6.0',
+            'pytest-cov>=2.5.1'
+        ]
+    },
+    setup_requires=[
+        'pytest-runner',
+    ],
+    tests_require=[
+        'pytest',
     ]
 )

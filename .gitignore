@@ -2,9 +2,11 @@
 **/dist
 
 # python
+.coverage
 .venv/**
-*.egg-info
+*.egg*
 **/__pycache__
+**/.pytest_cache
 
 # logs
 **/*.log
