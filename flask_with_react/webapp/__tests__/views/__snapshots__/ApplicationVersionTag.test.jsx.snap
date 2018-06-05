@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationVersionTag basic creation 1`] = `
+<p
+  className="lead"
+  onClick={[Function]}
+>
+   Application version not loaded. Click to load 
+</p>
+`;
