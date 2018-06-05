@@ -24,5 +24,5 @@ This is a boilerplate application for a Flask backend using React with Boostrap 
 
 ## Webapp Command Line Tools ##
 
- * `NODE_ENV = development | production`
- * `npm run build | watch | dist | start | clean`
+ * `export NODE_ENV = development | production`
+ * `npm run build | watch | dist | test[:*] | start | clean`
