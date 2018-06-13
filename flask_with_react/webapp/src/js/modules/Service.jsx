@@ -94,7 +94,7 @@ export const withService = (WrappedComponent, Service) => {
             this.service = new Service()
             this.state = {
                 status: Service.INITIALIZING,
-                data: this.service.defaultData
+                data: this.service.getDefaultData()
             }
             this.onServiceMethod = this.onServiceMethod.bind(this)
         }
