@@ -6,7 +6,7 @@ import {withService, Service} from '../modules/Service'
 import {LoginService} from '../Services'
 
 
-const LoginView = ({status, service, data}) => {
+const LoginView = ({service, status, data}) => {
     if (status === Service.DONE) {
         Settings.set(JWT_KEY, data)
         return <Redirect to='/home'/>
